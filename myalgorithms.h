@@ -1,6 +1,7 @@
 #ifndef MYALGORITHMS_H
 #define MYALGORITHMS_H
 #include <utility>
+#include <algorithm>
 class myAlgorithms
 {
 public:
@@ -206,8 +207,76 @@ public:
         return first;
 
     }
-};
 
+    template<typename BidirectionalIterator>
+    bool next_permutation(BidirectionalIterator first, BidirectionalIterator last)
+    {
+        if(first==last)
+        {
+            return false;
+        }
+        BidirectionalIterator i = first;
+        ++i;
+        if(i == last)
+        {
+            return false;
+        }
+        i = last;
+        --i;
+        for(;;)
+        {
+            BidirectionalIterato ii = i;
+            --i;
+            if(*i<*ii)
+            {
+               BidirectionalIterator j = last;
+               while(!(*i<*(--j)));
+               iter_swap(i,j);
+               reverse(ii,last);
+               return true;
+            }
+            if(i == first)
+            {
+                std::reverse(first,last);
+                return false;
+            }
+        }
+    }
+    template<typename BidirectionalIterator>
+    bool prev_permutation(BidirectionalIterator first, BidirectionalIterator last)
+    {
+        if(first==last)
+        {
+            return false;
+        }
+        BidirectionalIterator i = first;
+        ++i;
+        if(i == last)
+        {
+            return false;
+        }
+        i = last;
+        --i;
+        for(;;)
+        {
+            BidirectionalIterato ii = i;
+            --i;
+            if(*i>*ii)
+            {
+               BidirectionalIterator j = last;
+               while(!(*--j < *i));
+               iter_swap(i,j);
+               reverse(ii,last);
+               return true;
+            }
+            if(i == first)
+            {
+                std::reverse(first,last);
+                return false;
+            }
+        }
+    }
+};
 template<typename InputIterator1, typename InputIterator2>
 std::pair<InputIterator1, InputIterator2> myAlgorithms::mismatch(InputIterator1 beg,
                                                    InputIterator1 end,
