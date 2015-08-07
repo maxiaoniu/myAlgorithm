@@ -67,6 +67,93 @@ public:
     InputIterator find_first_of(InputIterator beg, InputIterator end,
                                 ForwardIterator searchBeg, ForwardIterator searchEnd);
 
+    //search element
+    //search first subrange
+    //return the position of the first element of the first subrange matching the range [beg,end)
+    //in the range [searchBeg, searchEnd)
+    template<typename ForwardIterator1, typename ForwardIterator2>
+    ForwardIterator1 search(ForwardIterator1 beg, ForwardIterator1 end,
+                            ForwardIterator2 searchBeg, ForwardIterator2 searchEnd)
+    {
+        int d1=end-beg;
+        int d2=searchBeg-searchEnd;
+
+        if(d1<d2)
+            return end;
+
+        ForwardIterator1 curr1 = beg;
+        ForwardIterator2 curr2 = searchBeg;
+
+        while (curr2 != searchEnd)
+        {
+            if(*curr1 == *curr2)
+            {
+                ++curr1;
+                ++curr2;
+            }
+            else
+            {
+                //it means impossible find the subrange
+                if(d1 == d2)
+                    return end;
+                else
+                {
+                    curr1 = ++beg;
+                    curr2 = searchBeg;
+                    --d1;
+                }
+
+            }
+        }
+
+        return beg;
+    }
+    //search_n
+    //search first n matching consecutive elements
+    //returns the position of the first of count consecutive elements in the range[beg, end) that all have
+    //a value equal the value
+    template<typename ForwardIterator, typename Size, typename T>
+    ForwardIterator search_n(ForwardIterator beg, ForwardIterator end, Size count, const T& value)
+    {
+        if(count <= 0)
+            return beg;
+        //find the first position of value
+        while(beg!=end)
+        {
+            if(*beg == value)
+                break;
+            else
+                ++beg;
+        }
+        //continue find the last values
+        while (beg != end)
+        {
+            Size n = count - 1;
+            ForwardIterator i = beg;
+            ++i;
+            while(*i == value && n != 0 && i != end)
+            {
+               ++i;
+               --n;
+            }
+            if(n==0)
+                return beg;
+            else
+            {
+                while(i!=end)
+                {
+                    if(*i == value)
+                        break;
+                    else
+                        ++i;
+                }
+                beg = i;
+            }
+
+        }
+        return end;
+
+    }
 };
 
 template<typename InputIterator1, typename InputIterator2>
@@ -258,4 +345,5 @@ InputIterator myAlgorithms::find_first_of(InputIterator beg, InputIterator end,
     }
     return end;
 }
+
 #endif // MYALGORITHMS_H
