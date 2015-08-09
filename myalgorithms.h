@@ -154,6 +154,58 @@ public:
         return end;
 
     }
+    //search first or last possible position
+    //lower_bound returns the position of the first element that has a value equal to or greater than value
+    //upper_bound returns the position of the first element that has a value greater than value
+    //this is a random access iterator version(vector etc.)
+    template<typename RandomAccessIterator, typename T>
+    RandomAccessIterator lower_bound(RandomAccessIterator first, RandomAccessIterator last, T& value)
+    {
+        int len = last - first;
+        int half = 0;
+
+        RandomAccessIterator middle;
+
+        while (len > 0) {
+            half = len>>1;
+            middle = first + half;
+            if(*middle < value)
+            {
+                first = middle+1;
+                len = len - half -1;
+            }
+            else
+            {
+                len = half;
+            }
+        }
+        return first;
+
+    }
+    template<typename RandomAccessIterator, typename T>
+    RandomAccessIterator upper_bound(RandomAccessIterator first, RandomAccessIterator last, T& value)
+    {
+        int len = last - first;
+        int half = 0;
+
+        RandomAccessIterator middle;
+
+        while (len > 0) {
+            half = len>>1;
+            middle = first + half;
+            if(*middle <= value)
+            {
+                first = middle+1;
+                len = len - half -1;
+            }
+            else
+            {
+                len = half;
+            }
+        }
+        return first;
+
+    }
 };
 
 template<typename InputIterator1, typename InputIterator2>
