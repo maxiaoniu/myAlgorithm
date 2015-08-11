@@ -1,3 +1,4 @@
+
 #ifndef MYALGORITHMS_H
 #define MYALGORITHMS_H
 #include <utility>
@@ -274,6 +275,15 @@ public:
                 std::reverse(first,last);
                 return false;
             }
+        }
+
+    }
+    //reverse, use random access such as vector
+    template<typename RandomAccessIterator>
+    void reverse(RandomAccessIterator first, RandomAccessIterator last)
+    {
+        while(first < last) {
+            iter_swap(first++, ++last);
         }
     }
 };
